@@ -1,5 +1,5 @@
 {
-  "name": "outdated",
+  "name": "@ruyadorno/outdated",
   "version": "1.0.0",
   "description": "Shortcut to interactively update your deps using npm + ipt",
   "bin": {
