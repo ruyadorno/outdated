@@ -1,0 +1,15 @@
+{
+  "name": "outdated",
+  "version": "1.0.0",
+  "description": "Shortcut to interactively update your deps using npm + ipt",
+  "bin": {
+    "outdated": "outdated"
+  },
+  "keywords": ["npm", "interactive", "ipt", "outdated", "update"],
+  "author": {
+    "name": "Ruy Adorno",
+    "url":"https://ruyadorno.com/",
+    "twitter": "ruyadorno"
+  },
+  "license": "MIT"
+}

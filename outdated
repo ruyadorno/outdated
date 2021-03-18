@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+if [ "$1" == "--version" ]; then
+	echo "1.0.0"
+	exit 0;
+fi
+
+if [ "$1" == "--help" ]; then
+	echo "outdated
+
+Options:
+	(no args) Open interactive menu to update a dep
+	--help    Show this help menu
+	--version Prints version number"
+	exit 0;
+fi
+
+if [! npm -v &> /dev/null]; then
+	echo "You need a globally installed npm to use this script"
+	exit
+fi
+
+function findipt() {
+	if hash ipt 2>/dev/null; then
+		# use global ipt install
+		echo ipt
+	else
+		# use npx
+		echo "npx ipt"
+	fi
+}
+
+npm install $(npm outdated --parseable | cut -d ':' -f 2 | findipt())
