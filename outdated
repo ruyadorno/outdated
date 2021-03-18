@@ -9,15 +9,16 @@ if [ "$1" == "--help" ]; then
 	echo "outdated
 
 Options:
-	(no args) Open interactive menu to update a dep
-	--help    Show this help menu
-	--version Prints version number"
+	outdated		Open interactive menu updating deps to a \"Wanted\" version
+	outdated latest	Open interactive menu updating deps to a \"Latest\" version
+	--help			Show this help menu
+	--version		Prints version number"
 	exit 0;
 fi
 
-if [! npm -v &> /dev/null]; then
-	echo "You need a globally installed npm to use this script"
-	exit
+if [ ! npm -v 2> /dev/null ]; then
+	echo "Error: You need a globally installed npm to use this script" >&2
+	exit 1
 fi
 
 function findipt() {
@@ -30,4 +31,17 @@ function findipt() {
 	fi
 }
 
-npm install $(npm outdated --parseable | cut -d ':' -f 2 | findipt())
+if [ "$1" == "latest" ]; then
+	depwantedversioncutopt=4
+else
+	depwantedversioncutopt=2
+fi
+
+depfinalversiontoinstall="$(npm outdated --parseable | cut -d ':' -f $depwantedversioncutopt | $(findipt))"
+
+if [ -z "$depfinalversiontoinstall" ]; then
+	echo "Error: Failed to select a suitable dep to install." >&2
+	exit 1
+fi
+
+npm install "$depfinalversiontoinstall"
